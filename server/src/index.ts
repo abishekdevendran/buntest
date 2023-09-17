@@ -187,22 +187,28 @@ const app = new Elysia()
 			ctx.set.status = 401;
 			return 'Unauthorized';
 		}
-		const [tasks, events] = await db.transaction(async (tx) => {
-			const tasks = await tx.query.task.findMany({
-				where: (task, { eq }) => eq(task.userId, session.user.userId),
-			});
-			const events = await tx.query.event.findMany({
-				where: (event, { eq }) => eq(event.userId, session.user.userId),
-			});
-			return [tasks, events];
+		// const [tasks, events] = await db.transaction(async (tx) => {
+		// 	const tasks = await tx.query.task.findMany({
+		// 		where: (task, { eq }) => eq(task.userId, session.user.userId),
+		// 	});
+		// 	const events = await tx.query.event.findMany({
+		// 		where: (event, { eq }) => eq(event.userId, session.user.userId),
+		// 	});
+		// 	return [tasks, events];
+		// });
+		const user = await db.query.user.findFirst({
+			where: (user, { eq }) => eq(user.id, session.user.userId),
+			with:{
+				tasks: true,
+				events: true,
+			}
 		});
+		console.log(user)
 		return {
 			user: {
-				...session.user,
+				...user,
 				// remove sensitive data
-				userId: undefined,
-				tasks,
-				events,
+				id: undefined,
 			},
 		};
 	})
