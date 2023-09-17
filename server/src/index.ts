@@ -5,17 +5,34 @@ import cors from '@elysiajs/cors';
 import swagger from '@elysiajs/swagger';
 import { logger } from '@grotto/logysia';
 import { OAuthRequestError } from '@lucia-auth/oauth';
-import Elysia, { t } from 'elysia';
-import * as schema from '@/database/drizzle/schema';
+import Elysia, { t, ws } from 'elysia';
 
 export const setup = new Elysia({ name: 'setup' })
 	.use(logger())
 	.use(cors())
 	.use(swagger())
 	.use(cookie())
+	.use(ws());
 
 const app = new Elysia()
-	.use(setup)
+	.use(logger())
+	.use(cors())
+	.use(swagger())
+	.use(cookie())
+	.use(ws())
+	.ws('/ws', {
+		open(ws) {
+			console.log('ws opened for ' + ws.data.id);
+		},
+		close(ws) {
+			console.log('ws closed for ' + ws.data.id);
+		},
+		message(ws, message) {
+			console.log('ws message for ' + ws.data.id + ': ' + message);
+			// reply mirror
+			ws.send(message);
+		},
+	})
 	.get('/', () => ({
 		message: 'Hello from Elysia!🦊',
 	}))
@@ -77,10 +94,10 @@ const app = new Elysia()
 					} catch (err) {
 						if (err instanceof OAuthRequestError) {
 							ctx.set.status = 400;
-							return err.message
+							return err.message;
 						}
 						ctx.set.status = 500;
-						return 'Internal server error'
+						return 'Internal server error';
 					}
 				},
 				{
@@ -163,10 +180,10 @@ const app = new Elysia()
 					} catch (err) {
 						if (err instanceof OAuthRequestError) {
 							ctx.set.status = 400;
-							return err.message
+							return err.message;
 						}
 						ctx.set.status = 500;
-						return 'Internal server error'
+						return 'Internal server error';
 					}
 				},
 				{
@@ -187,23 +204,13 @@ const app = new Elysia()
 			ctx.set.status = 401;
 			return 'Unauthorized';
 		}
-		// const [tasks, events] = await db.transaction(async (tx) => {
-		// 	const tasks = await tx.query.task.findMany({
-		// 		where: (task, { eq }) => eq(task.userId, session.user.userId),
-		// 	});
-		// 	const events = await tx.query.event.findMany({
-		// 		where: (event, { eq }) => eq(event.userId, session.user.userId),
-		// 	});
-		// 	return [tasks, events];
-		// });
 		const user = await db.query.user.findFirst({
 			where: (user, { eq }) => eq(user.id, session.user.userId),
-			with:{
+			with: {
 				tasks: true,
 				events: true,
-			}
+			},
 		});
-		console.log(user)
 		return {
 			user: {
 				...user,

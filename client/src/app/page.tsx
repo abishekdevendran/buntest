@@ -1,8 +1,8 @@
+import WebSocketDemo from '@/components/socketHandler';
 import { edenFetch } from '@elysiajs/eden';
-import { cookies } from "next/headers";
+import { cookies } from 'next/headers';
 import Link from 'next/link';
 import type { TApp } from 'server/src';
-
 
 export default async function Home() {
 	if (!process.env.NEXT_PUBLIC_API_URL) {
@@ -20,9 +20,20 @@ export default async function Home() {
 		},
 	});
 	if (error) {
-		return <Link href="/backend/auth/github" className='bg-yellow-600 p-4 rounded-full'>Login</Link>;
-	}
-	else{
-		return <>{JSON.stringify(data)}</>;
+		return (
+			<Link
+				href="/backend/auth/github"
+				className="rounded-full bg-yellow-600 p-4"
+			>
+				Login
+			</Link>
+		);
+	} else {
+		return (
+			<>
+				{JSON.stringify(data)}
+				<WebSocketDemo />
+			</>
+		);
 	}
 }
