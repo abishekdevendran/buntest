@@ -1,34 +1,36 @@
 {
-	"name": "server",
-	"module": "src/index.ts",
-	"type": "module",
-	"scripts": {
-		"dev": "bun --hot src/index.ts",
-		"db:generate": "drizzle-kit generate:pg --schema=./src/database/drizzle/schema.ts",
-		"db:migrate": "bun run ./src/database/drizzle/migrate.ts",
-		"db": "drizzle-kit generate:pg --schema=./src/database/drizzle/schema.ts && bun run ./src/database/drizzle/migrate.ts"
-	},
-	"devDependencies": {
-		"bun-types": "latest",
-		"drizzle-kit": "^0.19.13"
-	},
-	"peerDependencies": {
-		"typescript": "^5.0.0"
-	},
-	"dependencies": {
-		"@elysiajs/cookie": "^0.6.1",
-		"@elysiajs/cors": "^0.6.0",
-		"@elysiajs/swagger": "^0.6.2",
-		"@grotto/logysia": "^0.0.2",
-		"@lucia-auth/adapter-postgresql": "^2.0.1",
-		"@lucia-auth/adapter-session-redis": "^2.1.1",
-		"@lucia-auth/oauth": "^3.2.0",
-		"drizzle-orm": "^0.28.6",
-		"elysia": "^0.6.23",
-		"elysia-helmet": "^1.0.1",
-		"elysia-rate-limit": "^1.0.3",
-		"lucia": "^2.6.0",
-		"postgres": "^3.3.5",
-		"redis": "^4.6.8"
-	}
+  "name": "server",
+  "module": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun --hot src/index.ts",
+    "db:generate": "drizzle-kit generate:pg --schema=./src/database/drizzle/schema.ts",
+    "db:migrate": "bun run ./src/database/drizzle/migrate.ts",
+    "db": "drizzle-kit generate:pg --schema=./src/database/drizzle/schema.ts && bun run ./src/database/drizzle/migrate.ts",
+    "build": "bun build ./src/index.ts --outdir ./dist --target bun",
+    "start": "bun run ./dist/index.js",
+    "start:node": "node ./dist/index.js"
+  },
+  "devDependencies": {
+    "bun-types": "latest",
+    "drizzle-kit": "^0.19.13"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@elysiajs/cors": "latest",
+    "@elysiajs/swagger": "latest",
+    "@grotto/logysia": "latest",
+    "@lucia-auth/adapter-postgresql": "^2.0.1",
+    "@lucia-auth/adapter-session-redis": "^2.1.1",
+    "@lucia-auth/oauth": "^3.2.0",
+    "drizzle-orm": "latest",
+    "elysia": "latest",
+    "elysia-helmet": "latest",
+    "elysia-rate-limit": "latest",
+    "lucia": "^2.6.0",
+    "postgres": "^3.3.5",
+    "redis": "^4.6.8"
+  }
 }

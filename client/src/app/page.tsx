@@ -8,11 +8,10 @@ export default async function Home() {
 	if (!process.env.NEXT_PUBLIC_API_URL) {
 		throw new Error('NEXT_PUBLIC_API_URL is not defined');
 	}
-	const nextCookies = cookies();
 	const api = edenFetch<TApp>(
 		process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:5000',
 	);
-	const { data, error } = await api(`/me`, {
+	const { data, error } = await api('/me', {
 		cache: 'no-store',
 		credentials: 'include',
 		headers: {
