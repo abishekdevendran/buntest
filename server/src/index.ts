@@ -10,20 +10,20 @@ export const setup = new Elysia({ name: 'setup' })
 	// .use(logger())
 
 const app = new Elysia()
-	.use(setup)
-	.ws('/ws', {
-		open(ws) {
-			console.log('ws opened');
-		},
-		close(ws) {
-			console.log('ws closed');
-		},
-		message(ws, message) {
-			console.log('ws message:' + message);
-			// reply mirror
-			ws.send(message);
-		},
-	})
+	// .use(setup)
+	// .ws('/ws', {
+	// 	open(ws) {
+	// 		console.log('ws opened');
+	// 	},
+	// 	close(ws) {
+	// 		console.log('ws closed');
+	// 	},
+	// 	message(ws, message) {
+	// 		console.log('ws message:' + message);
+	// 		// reply mirror
+	// 		ws.send(message);
+	// 	},
+	// })
 	.get('/', () => ({
 		message: 'Hello from Elysia!🦊',
 	}))

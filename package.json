@@ -1,22 +1,22 @@
 {
   "name": "workspace-pnpm",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
   "author": "",
-  "license": "ISC",
-  "private": true,
-  "workspaces": [
-    "client",
-    "server"
-  ],
+  "main": "index.js",
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.2.0",
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.4"
-  }
+  },
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "workspaces": [
+    "client",
+    "server"
+  ]
 }
